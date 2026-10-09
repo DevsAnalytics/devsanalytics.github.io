@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- This site design and formatting has been created using claude.ai. The content is original work. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -49,6 +50,22 @@ h2{font-family:var(--serif);font-weight:400;font-size:1.8rem;color:var(--deep);m
 .tip.wide{grid-column:1/-1}
 .tip.rule{border-left-color:var(--teal)}
 
+/* email case checker */
+.checker{padding-top:40px;padding-bottom:8px}
+.checker-box{background:#fff;border:1px solid var(--soft);border-left:6px solid var(--teal);padding:26px 28px;max-width:560px}
+.checker-box label{display:block;font-weight:600;color:var(--deep);margin-bottom:6px}
+.checker-box input{width:100%;padding:11px 12px;font-size:1rem;font-family:var(--sans);border:1px solid #c5d3e3;border-radius:4px;margin-bottom:14px}
+.btn-check,.btn-copy{padding:11px 24px;border:0;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;font-family:var(--sans)}
+.btn-check{background:var(--deep);color:#fff}
+.btn-check:hover{background:#17406f}
+.btn-copy{background:var(--mist);color:var(--deep);margin-top:14px}
+.btn-copy:hover{background:var(--soft)}
+.result{margin-top:16px;min-height:1.4em}
+.result.ok{color:#1f6b3a}
+.result.warn{color:var(--deep)}
+.result.error{color:var(--alert)}
+.result code{background:var(--mist);padding:2px 6px;border-radius:3px;word-break:break-all}
+
 /* cta */
 .cta{margin:48px 0 0;background:var(--deep);color:#fff;padding:52px 0;text-align:center}
 .cta p{max-width:32em;margin:0 auto 24px;opacity:.95}
@@ -76,9 +93,9 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
     <div class="mock" role="img" aria-label="Example of a suspicious email announcing new bank details, with the lookalike sender domain highlighted">
       <div class="mock-bar">Inbox &nbsp;&#8250;&nbsp; Accounts Payable</div>
       <div class="mock-body">
-        <div class="mock-row"><span>From:</span> billing@acme-supply<span class="flag" style="color:var(--alert)">.co</span></div>
+        <div class="mock-row"><span>From:</span> billing@acme-supply<span class="flag" style="color:var(--alert)" title="Newly registered domain">.co</span></div>
         <div class="mock-row"><span>Subject:</span> <strong>Our bank details have changed</strong></div>
-        <div class="mock-row">Please send all future payments ASAP to the <span class="flag">new account</span> below. This is <span class="flag">urgent</span>.</div>
+        <div class="mock-row">Please send all future payments ASAP to the <span class="flag" title="New receiving financial institution">new account</span> below. This is <span class="flag" title="Social pressure">urgent</span>.</div>
       </div>
     </div>
   </div>
@@ -86,7 +103,7 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 
 <main class="wrap">
   <h2>Six habits that keep your payments safe</h2>
-  <p class="intro">None of these need special software. They need a pause at the right moment.</p>
+  <p class="intro">None of these need special software, just a pause at the right moment.</p>
 
   <section class="priority" aria-labelledby="t1">
     <h3 id="t1">Don't fall for fake payment instructions</h3>
@@ -118,6 +135,18 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
   </div>
 </main>
 
+<section class="checker wrap" aria-labelledby="checker-title">
+  <h2 id="checker-title">Email case checker</h2>
+  <p class="intro">Email addresses are usually treated as case-insensitive, so matching them is easier when they're all lowercase. Paste one in to check it.</p>
+  <form id="emailForm" class="checker-box" novalidate>
+    <label for="emailInput">Email address</label>
+    <input type="email" id="emailInput" placeholder="Name@Example.com" autocomplete="off" required>
+    <button type="submit" class="btn-check">Check case</button>
+    <div id="result" class="result" role="status" aria-live="polite"></div>
+    <button type="button" id="copyBtn" class="btn-copy" hidden>Copy lowercase version</button>
+  </form>
+</section>
+
 <section class="cta">
   <div class="wrap">
   
@@ -126,5 +155,47 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
   </div>
 </section>
 <footer>&copy; Devin O'Keefe</footer>
+
+<script>
+(function(){
+  var form=document.getElementById('emailForm');
+  var input=document.getElementById('emailInput');
+  var result=document.getElementById('result');
+  var copyBtn=document.getElementById('copyBtn');
+  var lower='';
+  var emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var email=input.value.trim();
+    copyBtn.hidden=true;
+    result.className='result';
+    if(!emailRegex.test(email)){
+      result.classList.add('error');
+      result.textContent='Please enter a valid email address.';
+      return;
+    }
+    lower=email.toLowerCase();
+    if(email===lower){
+      result.classList.add('ok');
+      result.textContent='Already all lowercase. Nothing to change.';
+    }else{
+      result.classList.add('warn');
+      result.innerHTML='Mixed case detected. Lowercase version: <code></code>';
+      result.querySelector('code').textContent=lower;
+      copyBtn.hidden=false;
+    }
+  });
+
+  copyBtn.addEventListener('click',function(){
+    if(navigator.clipboard){
+      navigator.clipboard.writeText(lower).then(function(){
+        copyBtn.textContent='Copied';
+        setTimeout(function(){copyBtn.textContent='Copy lowercase version';},1500);
+      });
+    }
+  });
+})();
+</script>
 </body>
 </html>
