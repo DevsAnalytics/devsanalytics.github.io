@@ -1,112 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Email Lowercase Converter</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 40px;
-      background-color: #e6f7ff;
-    }
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      background: #d0eaff;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-    input[type="email"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      transition: border 0.3s ease;
-    }
-    input[type="email"]:focus {
-      border: 2px solid #4a90e2;
-      outline: none;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      background-color: #005bb5;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #003f99;
-    }
-    .result {
-      margin-top: 20px;
-      font-size: 18px;
-      color: #333;
-    }
-    .result.success {
-      color: #007bff;
-    }
-    .result.error {
-      color: #003366;
-      background-color: #e0f7ff;
-      border: 1px solid #007bff;
-      padding: 10px;
-      border-radius: 4px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h2>Email Lowercase Converter</h2>
-    <form id="emailForm">
-      <input
-        type="email"
-        id="emailInput"
-        placeholder="Enter your email"
-        required
-      />
-      <button type="submit">Convert to Lowercase</button>
-    </form>
-    <div class="result" id="result"></div>
-  </div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devin O'Keefe | B2B Payment Fraud Awareness</title>
+<meta name="description" content="Practical tips for protecting your business from B2B payment fraud, from Devin O'Keefe, Fraud Operations.">
+<style>
+:root{
+  --deep:#1f4e8c; --teal:#3b82c4; --mid:#4a90c9; --soft:#d6e6f5; --mist:#eef4fb;
+  --ink:#1e2f45; --muted:#5a6b80; --alert:#b3372f; --alert-bg:#fbeceb;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);color:var(--ink);background:#f8f9fa;line-height:1.65}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--deep);outline-offset:3px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 28px}
 
-  <script>
-    document.getElementById("emailForm").addEventListener("submit", function (e) {
-      e.preventDefault(); // Prevent form submission
+/* hero */
+.hero{background:linear-gradient(135deg,#4f8fd0 0%,#2f6db0 100%);color:#fff;padding:64px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center}
+.byline{font-size:.95em;opacity:.95;margin-bottom:18px;text-shadow:1px 1px 3px rgba(0,0,0,.25)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;letter-spacing:-.01em;text-shadow:1px 1px 4px rgba(0,0,0,.25);margin-bottom:20px}
+.lede{font-size:1.1em;max-width:34em;text-shadow:1px 1px 3px rgba(0,0,0,.2)}
 
-      const emailInput = document.getElementById("emailInput");
-      const resultDiv = document.getElementById("result");
-
-      const email = emailInput.value.trim();
-
-      // Basic email validation (optional)
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        resultDiv.textContent = "Please enter a valid email address.";
-        resultDiv.classList.remove("success");
-        resultDiv.classList.add("error");
-        return;
-      }
-
-      // Convert to lowercase
-      const lowercaseEmail = email.toLowerCase();
-
-      // Display the result
-      resultDiv.textContent = "Lowercase email: " + lowercaseEmail;
-      result意图
-      resultDiv.classList.remove("error");
-      resultDiv.classList.add("success");
-    });
-  </script>
-</body>
-</html>
+/* mock phishing email */
+.mock{background:#fff;color:var(--ink);border-radius:8px;box-shadow:0 12px 30px rgba(20,40,90,.35);font-size:.9rem;overflow:hidden}
+.mock-bar{background:var(--mist);padding:10px 16px;font-size:.8rem;color:var(--muted);border-bottom:1px solid var(--soft)}
+.mock-body{padding:16px}
+.mock-row{margin-bottom:10px}
+.mock-row span{color:var(--muted)}
+.flag{background:var(--alert-bg);color:var(--alert);border-bottom:2px solid var(--alert);padding:0 3px;font-weight:600}
+.mock-note{margin-top:14px;padding:12px 14px;background:var(--mist);border-left:4px solid var(--teal);font-size:.85rem}
 
 /* tips */
 main{padding:64px 0 24px}
@@ -150,9 +76,9 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
     <div class="mock" role="img" aria-label="Example of a suspicious email announcing new bank details, with the lookalike sender domain highlighted">
       <div class="mock-bar">Inbox &nbsp;&#8250;&nbsp; Accounts Payable</div>
       <div class="mock-body">
-        <div class="mock-row"><span>From:</span> billing@acme-supply<span class="flag" style="color:var(--alert)" title="Newly registered domain">.co</span></div>
+        <div class="mock-row"><span>From:</span> billing@acme-supply<span class="flag" style="color:var(--alert)">.co</span></div>
         <div class="mock-row"><span>Subject:</span> <strong>Our bank details have changed</strong></div>
-        <div class="mock-row">Please send all future payments ASAP to the <span class="flag" title="New receiving financial institution">new account</span> below. This is <span class="flag" title="Social pressure">urgent</span>.</div>
+        <div class="mock-row">Please send all future payments ASAP to the <span class="flag">new account</span> below. This is <span class="flag">urgent</span>.</div>
       </div>
     </div>
   </div>
@@ -160,7 +86,7 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 
 <main class="wrap">
   <h2>Six habits that keep your payments safe</h2>
-  <p class="intro">None of these need special software, just a pause at the right moment.</p>
+  <p class="intro">None of these need special software. They need a pause at the right moment.</p>
 
   <section class="priority" aria-labelledby="t1">
     <h3 id="t1">Don't fall for fake payment instructions</h3>
