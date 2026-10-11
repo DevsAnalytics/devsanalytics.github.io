@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- This site design and formatting has been created using claude.ai. The content is original work. -->
+<!-- This site has been created and written by claude.ai. The content/design is from a human brain put together between professional experience and various fraud prevention industry sources. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -10,8 +10,10 @@
 :root{
   --deep:#1f4e8c; --teal:#3b82c4; --mid:#4a90c9; --soft:#d6e6f5; --mist:#eef4fb;
   --ink:#1e2f45; --muted:#5a6b80; --alert:#b3372f; --alert-bg:#fbeceb;
+  --ok:#1f6b3a; --caution:#a85f00; --caution-bg:#fdf3e1;
   --serif:Georgia,'Times New Roman',serif;
   --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,'Liberation Mono',monospace;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:var(--sans);color:var(--ink);background:#f8f9fa;line-height:1.65}
@@ -50,25 +52,71 @@ h2{font-family:var(--serif);font-weight:400;font-size:1.8rem;color:var(--deep);m
 .tip.wide{grid-column:1/-1}
 .tip.rule{border-left-color:var(--teal)}
 
-/* email case checker */
-.checker{padding-top:40px;padding-bottom:4px}
-.checker{text-align:center}
+/* sender check (domain lookup, header review, character case) */
+.checker{padding-top:40px;padding-bottom:4px;text-align:center}
 .checker .intro{margin-left:auto;margin-right:auto}
 .checker h2{border-top:2px solid var(--soft);padding-top:28px}
-.checker-box{background:#fff;border:1px solid var(--soft);border-left:6px solid var(--teal);padding:26px 28px;max-width:560px}
-.checker-box{margin:0 auto;text-align:left}  
-.checker-box label{display:block;font-weight:600;color:var(--deep);margin-bottom:6px}
-.checker-box input{width:100%;padding:11px 12px;font-size:1rem;font-family:var(--sans);border:1px solid #c5d3e3;border-radius:4px;margin-bottom:14px}
+.sc-box{background:#fff;border:1px solid var(--soft);border-left:6px solid var(--teal);padding:0 28px 28px;max-width:760px;margin:0 auto;text-align:left}
+
+.sc-tabs{display:flex;gap:28px;border-bottom:1px solid var(--soft);margin:0 0 22px;overflow-x:auto}
+.sc-tab{appearance:none;background:none;border:0;border-bottom:3px solid transparent;padding:18px 0 12px;margin-bottom:-1px;font:inherit;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap}
+.sc-tab:hover{color:var(--deep)}
+.sc-tab[aria-selected="true"]{color:var(--deep);border-bottom-color:var(--deep)}
+.sc-panel[hidden]{display:none}
+
+.sc-help{color:var(--muted);margin-bottom:16px;max-width:60ch}
+.sc-box label{display:block;font-weight:600;color:var(--deep);margin-bottom:6px}
+.sc-box input[type="text"],.sc-box textarea{width:100%;padding:11px 12px;font-size:1rem;font-family:var(--sans);color:var(--ink);border:1px solid #c5d3e3;border-radius:4px;background:#fff}
+.sc-box textarea{font-family:var(--mono);font-size:.85rem;min-height:11rem;resize:vertical}
+.sc-row{display:flex;gap:10px;align-items:stretch}
+.sc-row input{flex:1;min-width:0}
+
 .btn-check,.btn-copy{padding:11px 24px;border:0;border-radius:30px;font-size:1rem;font-weight:600;cursor:pointer;font-family:var(--sans)}
 .btn-check{background:var(--deep);color:#fff}
 .btn-check:hover{background:#17406f}
-.btn-copy{background:var(--mist);color:var(--deep);margin-top:14px}
+.btn-copy{background:var(--mist);color:var(--deep)}
 .btn-copy:hover{background:var(--soft)}
-.result{margin-top:16px;min-height:1.4em}
-.result.ok{color:#1f6b3a}
-.result.warn{color:var(--deep)}
-.result.error{color:var(--alert)}
-.result code{background:var(--mist);padding:2px 6px;border-radius:3px;word-break:break-all}
+.sc-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.sc-actions .btn-copy{padding:8px 18px;font-size:.92rem}
+.sc-box textarea + .sc-actions{margin-top:12px}
+
+.sc-out{margin-top:24px}
+.sc-summary{font-weight:600;color:var(--deep);margin-bottom:12px}
+.sc-findings{list-style:none;display:grid;gap:8px}
+.sc-f{border-left:4px solid var(--soft);background:var(--mist);padding:10px 14px;display:grid;gap:2px}
+.sc-f--bad{border-left-color:var(--alert);background:var(--alert-bg)}
+.sc-f--warn{border-left-color:var(--caution);background:var(--caution-bg)}
+.sc-f--ok{border-left-color:var(--ok)}
+.sc-tag{font-size:.8rem;font-weight:700;color:var(--muted)}
+.sc-f--bad .sc-tag{color:var(--alert)}
+.sc-f--warn .sc-tag{color:var(--caution)}
+.sc-f--ok .sc-tag{color:var(--ok)}
+.sc-d{color:#43566d;font-size:.95rem;overflow-wrap:anywhere}
+.sc-caveat{margin-top:18px;font-size:.9rem;color:var(--muted);max-width:62ch}
+.sc-links{margin-top:14px;font-size:.9rem;color:var(--muted)}
+.sc-links a{color:var(--deep)}
+.sc-busy{color:var(--muted)}
+.sc-box h3{font-size:1rem;font-weight:600;color:var(--deep);margin:26px 0 10px}
+
+.sc-hops{padding-left:1.4rem;font-family:var(--mono);font-size:.8rem;display:grid;gap:6px;color:#43566d}
+.sc-hops li{overflow-wrap:anywhere}
+
+.sc-views{display:grid;gap:8px}
+.sc-view{display:grid;grid-template-columns:9rem 1fr;gap:12px;align-items:baseline}
+.sc-view dt{font-size:.85rem;color:var(--muted)}
+.sc-view dd{margin:0;font-size:1.15rem;overflow-wrap:anywhere}
+.sc-view .sc-mono{font-family:var(--mono)}
+.sc-view .sc-sans{font-family:Arial,Helvetica,sans-serif}
+.sc-chars{display:flex;flex-wrap:wrap;gap:5px;list-style:none}
+.sc-ch{width:3.4rem;border:1px solid var(--soft);border-radius:6px;padding:5px 2px 4px;text-align:center;display:grid;line-height:1.25;background:#fff}
+.sc-ch b{font:600 1.35rem var(--mono)}
+.sc-ch i{font:normal .62rem var(--mono);color:var(--muted)}
+.sc-ch small{font-size:.65rem;font-weight:700;color:var(--muted)}
+.sc-ch--upper{background:var(--soft)}
+.sc-ch--digit{background:var(--caution-bg)}
+.sc-ch--amb{border:2px solid var(--caution)}
+.sc-ch--foreign{border:2px solid var(--alert);background:var(--alert-bg)}
+.sc-legend{font-size:.85rem;color:var(--muted);margin-top:10px}
 
 /* cta */
 .cta{margin:48px 0 0;background:var(--deep);color:#fff;padding:52px 0;text-align:center}
@@ -83,6 +131,9 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
   .hero .wrap{grid-template-columns:1fr;gap:32px}
   .tips{grid-template-columns:1fr}
   .wrap{padding:0 20px}
+  .sc-box{padding:0 18px 22px}
+  .sc-row{flex-direction:column}
+  .sc-view{grid-template-columns:1fr;gap:0}
 }
 </style>
 </head>
@@ -139,16 +190,54 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
   </div>
 </main>
 
-<section class="checker wrap" aria-labelledby="checker-title">
-  <h2 id="checker-title">Email case checker</h2>
-  <p class="intro">Email addresses are usually treated as case-insensitive, spotting a spoofed email is easier when all the letters are lowercase. Paste one in to check it.</p>
-  <form id="emailForm" class="checker-box" novalidate>
-    <label for="emailInput">Email address</label>
-    <input type="email" id="emailInput" placeholder="Name@Example.com" autocomplete="off" required>
-    <button type="submit" class="btn-check">Check case</button>
-    <div id="result" class="result" role="status" aria-live="polite"></div>
-    <button type="button" id="copyBtn" class="btn-copy" hidden>Copy lowercase version</button>
-  </form>
+<section class="checker wrap" id="sender-check" aria-labelledby="checker-title">
+  <h2 id="checker-title">Can I trust this sender?</h2>
+  <p class="intro">Three quick checks for an email you aren't sure about. Everything runs in your browser. Only the domain name is sent to public registration (RDAP) servers. Pasted headers never leave this page.</p>
+
+  <div class="sc-box">
+    <div class="sc-tabs" role="tablist" aria-label="Sender checks">
+      <button class="sc-tab" role="tab" id="sc-tab-domain" aria-controls="sc-panel-domain" aria-selected="true">Domain lookup</button>
+      <button class="sc-tab" role="tab" id="sc-tab-headers" aria-controls="sc-panel-headers" aria-selected="false" tabindex="-1">Header review</button>
+      <button class="sc-tab" role="tab" id="sc-tab-case" aria-controls="sc-panel-case" aria-selected="false" tabindex="-1">Email case checker</button>
+    </div>
+
+    <!-- Domain lookup -->
+    <div class="sc-panel" role="tabpanel" id="sc-panel-domain" aria-labelledby="sc-tab-domain">
+      <p class="sc-help">Enter the sender's email address or domain. You'll see when it was registered, who registered it, and whether the name looks like a lookalike. A domain registered in the last few weeks deserves extra suspicion.</p>
+      <form id="sc-domain-form" novalidate>
+        <label for="sc-domain-in">Email address or domain</label>
+        <div class="sc-row">
+          <input type="text" id="sc-domain-in" placeholder="billing@example.com" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button type="submit" class="btn-check">Look up</button>
+        </div>
+      </form>
+      <div class="sc-out" id="sc-domain-out" aria-live="polite"></div>
+    </div>
+
+    <!-- Header review -->
+    <div class="sc-panel" role="tabpanel" id="sc-panel-headers" aria-labelledby="sc-tab-headers" hidden>
+      <p class="sc-help">Paste the full original headers. In Gmail: ⋮ menu, then Show original. In Outlook: File, Properties, Internet headers. In Apple Mail: View, Message, All Headers.</p>
+      <form id="sc-headers-form" novalidate>
+        <label for="sc-headers-in">Raw email headers</label>
+        <textarea id="sc-headers-in" placeholder="Received: from mail.example.com ...&#10;From: ...&#10;Authentication-Results: ..." spellcheck="false"></textarea>
+        <div class="sc-actions"><button type="submit" class="btn-check">Review headers</button></div>
+      </form>
+      <div class="sc-out" id="sc-headers-out" aria-live="polite"></div>
+    </div>
+
+    <!-- Email case checker -->
+    <div class="sc-panel" role="tabpanel" id="sc-panel-case" aria-labelledby="sc-tab-case" hidden>
+      <p class="sc-help">Email addresses are usually treated as case-insensitive, so spotting a spoofed one is easier when all the letters are lowercase. Paste an address, domain or sender name. Every character is labelled upper case, lower case, digit or symbol, and look-alikes are flagged: capital I vs lowercase l vs 1, O vs 0, rn vs m, and letters from other alphabets.</p>
+      <form id="sc-case-form" novalidate>
+        <label for="sc-case-in">Email address or text</label>
+        <div class="sc-row">
+          <input type="text" id="sc-case-in" placeholder="Name@Example.com" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button type="submit" class="btn-check">Check case</button>
+        </div>
+      </form>
+      <div class="sc-out" id="sc-case-out" aria-live="polite"></div>
+    </div>
+  </div>
 </section>
 
 <section class="cta">
@@ -161,44 +250,461 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 <footer>&copy; Devin O'Keefe</footer>
 
 <script>
-(function(){
-  var form=document.getElementById('emailForm');
-  var input=document.getElementById('emailInput');
-  var result=document.getElementById('result');
-  var copyBtn=document.getElementById('copyBtn');
-  var lower='';
-  var emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+(function () {
+  var root = document.getElementById('sender-check');
+  if (!root) return;
+  var $ = function (s) { return root.querySelector(s); };
 
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var email=input.value.trim();
-    copyBtn.hidden=true;
-    result.className='result';
-    if(!emailRegex.test(email)){
-      result.classList.add('error');
-      result.textContent='Please enter a valid email address.';
-      return;
-    }
-    lower=email.toLowerCase();
-    if(email===lower){
-      result.classList.add('ok');
-      result.textContent='Already all lowercase. Nothing to change.';
-    }else{
-      result.classList.add('warn');
-      result.innerHTML='Mixed case detected. Lowercase version: <code></code>';
-      result.querySelector('code').textContent=lower;
-      copyBtn.hidden=false;
-    }
+  /* ---------- helpers ---------- */
+  function h(tag, attrs) {
+    var e = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      var v = attrs[k];
+      if (k === 'class') e.className = v;
+      else if (k.indexOf('on') === 0) e.addEventListener(k.slice(2), v);
+      else e.setAttribute(k, v);
+    });
+    Array.prototype.slice.call(arguments, 2).reduce(function (a, b) { return a.concat(b); }, []).forEach(function (c) {
+      if (c == null || c === false || c === '') return;
+      e.append(c.nodeType ? c : document.createTextNode(c));
+    });
+    return e;
+  }
+
+  var LEVEL = { bad: 'Red flag', warn: 'Caution', ok: 'Looks fine', info: 'Note' };
+
+  function findingsList(list) {
+    return h('ul', { class: 'sc-findings' }, list.map(function (f) {
+      return h('li', { class: 'sc-f sc-f--' + f.level },
+        h('span', { class: 'sc-tag' }, LEVEL[f.level]),
+        h('strong', {}, f.title),
+        f.detail ? h('span', { class: 'sc-d' }, f.detail) : null);
+    }));
+  }
+
+  function summaryLine(list) {
+    var bad = list.filter(function (f) { return f.level === 'bad'; }).length;
+    var warn = list.filter(function (f) { return f.level === 'warn'; }).length;
+    var plural = function (n, w) { return n + ' ' + w + (n === 1 ? '' : 's'); };
+    if (!bad && !warn) return 'No red flags found.';
+    var parts = [];
+    if (bad) parts.push(plural(bad, 'red flag'));
+    if (warn) parts.push(plural(warn, 'caution'));
+    return parts.join(' and ') + '.';
+  }
+
+  var CAVEAT = 'These checks can raise suspicion but cannot prove an email is safe. If anything feels off, contact the sender through a phone number or website you already trust, never one from the email.';
+
+  function renderResult(target, list, extra) {
+    target.replaceChildren(
+      h('p', { class: 'sc-summary' }, summaryLine(list)),
+      findingsList(list),
+      extra || null,
+      h('p', { class: 'sc-caveat' }, CAVEAT));
+  }
+
+  /* ---------- tabs ---------- */
+  var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+  function showTab(id) {
+    tabs.forEach(function (t) {
+      var on = t.id === 'sc-tab-' + id;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { showTab(t.id.replace('sc-tab-', '')); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      var next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      next.focus();
+      next.click();
+    });
   });
 
-  copyBtn.addEventListener('click',function(){
-    if(navigator.clipboard){
-      navigator.clipboard.writeText(lower).then(function(){
-        copyBtn.textContent='Copied';
-        setTimeout(function(){copyBtn.textContent='Copy lowercase version';},1500);
+  function handoff(tab, value, run) {
+    showTab(tab);
+    var input = $('#sc-' + tab + '-in');
+    input.value = value;
+    run(value);
+    input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  /* ---------- shared: domain parsing + lookalike heuristics ---------- */
+  function extractDomain(v) {
+    v = (v || '').trim().toLowerCase();
+    if (v.indexOf('@') !== -1) v = v.split('@').pop();
+    return v.replace(/^[a-z][a-z0-9+.-]*:\/\//, '').split(/[\/?#:\s>]/)[0].replace(/\.$/, '');
+  }
+
+  function baseDomain(d) {
+    var p = d.split('.');
+    if (p.length >= 3 && p[p.length - 1].length === 2 &&
+        ['co', 'com', 'org', 'net', 'gov', 'ac', 'edu'].indexOf(p[p.length - 2]) !== -1) return p.slice(-3).join('.');
+    return p.slice(-2).join('.');
+  }
+  function sameOrg(a, b) { return baseDomain(a) === baseDomain(b); }
+
+  var RISKY_TLDS = ['zip', 'mov', 'top', 'xyz', 'click', 'icu', 'work', 'support', 'rest', 'cfd', 'sbs', 'cyou', 'monster'];
+
+  function lookalike(d) {
+    var out = [];
+    var labels = d.split('.');
+    var name = labels.slice(0, -1).join('.');
+    var tld = labels[labels.length - 1];
+
+    if (/[^\x00-\x7f]/.test(d)) {
+      out.push({ level: 'bad', title: 'Domain contains non-English-keyboard characters', detail: 'Letters from other alphabets can look identical to Latin ones (for example Cyrillic "а" vs Latin "a"). Use the Email case checker tab to see which.' });
+    }
+    if (labels.some(function (l) { return l.indexOf('xn--') === 0; })) {
+      out.push({ level: 'bad', title: 'Internationalised (punycode) domain', detail: 'The "xn--" prefix means the real name uses non-ASCII characters. Browsers and mail apps may show it as a convincing lookalike.' });
+    }
+    if (/[a-z][01]|[01][a-z]/.test(name) && !/^\d+$/.test(name)) {
+      out.push({ level: 'warn', title: 'Digits mixed in with letters', detail: '0 can stand in for o and 1 for l or i (paypa1, micr0soft).' });
+    }
+    if (/rn|vv|cl/.test(name)) {
+      out.push({ level: 'warn', title: 'Contains rn, vv or cl', detail: 'These pairs can pass for m, w and d at a glance (rnicrosoft, vvells, clocusign).' });
+    }
+    if ((name.match(/-/g) || []).length >= 2) {
+      out.push({ level: 'warn', title: 'Several hyphens', detail: 'Names like secure-login-update-bank.com are typical of phishing domains.' });
+    }
+    if (labels.length >= 5) {
+      out.push({ level: 'warn', title: 'Unusually many subdomain levels', detail: 'Attackers bury a trusted brand name in the left-hand part so the real domain at the right is easy to miss. Only the last two parts (e.g. "example.com") identify the owner.' });
+    }
+    if (RISKY_TLDS.indexOf(tld) !== -1) {
+      out.push({ level: 'warn', title: 'Frequently abused ending: .' + tld, detail: 'Not proof of anything, but this ending shows up often in spam and phishing.' });
+    }
+    return out;
+  }
+
+  /* ---------- 1. Domain lookup (RDAP) ---------- */
+  function rdap(d) {
+    return fetch('https://rdap.org/domain/' + encodeURIComponent(d)).then(function (r) {
+      if (r.status === 404) return null;
+      if (!r.ok) throw new Error('RDAP returned ' + r.status);
+      return r.json();
+    });
+  }
+
+  function isoDay(d) { return d.toISOString().slice(0, 10); }
+  function daysAgo(d) { return Math.floor((Date.now() - d.getTime()) / 864e5); }
+
+  function manualLinks(d) {
+    return h('p', { class: 'sc-links' }, 'Check manually: ',
+      h('a', { href: 'https://lookup.icann.org/en/lookup?name=' + encodeURIComponent(d), target: '_blank', rel: 'noopener noreferrer' }, 'ICANN Lookup'),
+      ' · ',
+      h('a', { href: 'https://who.is/whois/' + encodeURIComponent(d), target: '_blank', rel: 'noopener noreferrer' }, 'who.is'));
+  }
+
+  function lookupDomain(input) {
+    var out = $('#sc-domain-out');
+    var d = extractDomain(input);
+    if (!/^[^\s.]+(\.[^\s.]+)+$/.test(d)) {
+      renderResult(out, [{ level: 'warn', title: 'Enter a domain or email address', detail: 'For example: billing@example.com or example.com' }]);
+      return Promise.resolve();
+    }
+    var findings = lookalike(d);
+    out.replaceChildren(h('p', { class: 'sc-busy' }, 'Looking up ' + d + '…'));
+
+    var ascii = d;
+    try { ascii = new URL('http://' + d).hostname; } catch (e) { /* keep original */ }
+
+    function walk(cand) {
+      return rdap(cand).then(function (data) {
+        if (data) return { data: data, matched: cand };
+        var parts = cand.split('.');
+        if (parts.length <= 2) return { data: null, matched: cand };
+        return walk(parts.slice(1).join('.'));
       });
     }
-  });
+
+    return walk(ascii).then(function (res) {
+      var data = res.data, matched = res.matched;
+      if (!data) {
+        findings.unshift({ level: 'bad', title: 'No registration record found', detail: 'Either the domain does not exist or its ending is not covered by the public RDAP service. A sender using a non-existent domain is almost certainly spoofed.' });
+        return;
+      }
+      if (matched !== ascii) findings.push({ level: 'info', title: 'Showing the registration for ' + matched, detail: d + ' is a subdomain, so the parent domain\'s record is shown.' });
+
+      var ev = function (a) {
+        var e = (data.events || []).filter(function (x) { return x.eventAction === a; })[0];
+        return e ? new Date(e.eventDate) : null;
+      };
+      var created = ev('registration'), expires = ev('expiration'), changed = ev('last changed');
+
+      if (created) {
+        var age = daysAgo(created);
+        var when = age < 1 ? 'today' : age < 60 ? age + ' days ago' : age < 730 ? Math.round(age / 30) + ' months ago' : (age / 365).toFixed(1) + ' years ago';
+        var level = age < 30 ? 'bad' : age < 180 ? 'warn' : age < 365 ? 'info' : 'ok';
+        var detail = age < 30 ? 'Brand-new domains are a hallmark of phishing campaigns. Treat with strong suspicion unless you were expecting this sender.'
+          : age < 180 ? 'Young domain. Legitimate businesses exist for years; be cautious about requests for money, logins or personal data.'
+          : age < 365 ? 'Under a year old.' : 'Long-established domains are a good sign, though attackers also hijack or buy old ones.';
+        findings.push({ level: level, title: 'Registered ' + when + ' (' + isoDay(created) + ')', detail: detail });
+      } else {
+        findings.push({ level: 'warn', title: 'No registration date published', detail: 'Some registries hide it. Try the manual links below.' });
+      }
+      if (changed && created && daysAgo(changed) < 30 && daysAgo(created) > 365) {
+        findings.push({ level: 'warn', title: 'Record changed in the last 30 days (' + isoDay(changed) + ')', detail: 'On an older domain, a recent change can mean a transfer or takeover. Often it is just a renewal.' });
+      }
+      if (expires) {
+        var left = -daysAgo(expires);
+        findings.push({ level: left < 0 ? 'warn' : 'info', title: (left < 0 ? 'Expired ' : 'Expires ') + isoDay(expires), detail: left < 0 ? 'An expired domain may have been re-registered by someone else.' : '' });
+      }
+
+      var reg = (data.entities || []).filter(function (e) { return (e.roles || []).indexOf('registrar') !== -1; })[0];
+      var vc = reg && reg.vcardArray && reg.vcardArray[1];
+      var fnRow = vc && vc.filter(function (x) { return x[0] === 'fn'; })[0];
+      if (fnRow && fnRow[3]) findings.push({ level: 'info', title: 'Registrar: ' + fnRow[3] });
+
+      var ns = (data.nameservers || []).map(function (n) { return (n.ldhName || '').toLowerCase(); }).filter(Boolean);
+      if (ns.length) findings.push({ level: 'info', title: 'Name servers', detail: ns.join(', ') });
+
+      if (data.status && data.status.length) findings.push({ level: 'info', title: 'Status', detail: data.status.join(', ') });
+      findings.push({ level: 'info', title: 'Owner details', detail: 'Most registrants are hidden by privacy services. That alone is normal and not a warning sign.' });
+    }).catch(function () {
+      findings.push({ level: 'info', title: 'Live lookup unavailable', detail: 'The registration service could not be reached from this page. Use the links below to check the domain directly.' });
+    }).then(function () {
+      renderResult(out, findings, manualLinks(d));
+    });
+  }
+
+  $('#sc-domain-form').addEventListener('submit', function (e) { e.preventDefault(); lookupDomain($('#sc-domain-in').value); });
+
+  /* ---------- 2. Header review ---------- */
+  function parseHeaders(raw) {
+    var lines = raw.replace(/\r\n?/g, '\n').split('\n');
+    var list = [], cur = null;
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i];
+      if (/^[ \t]+\S/.test(l) && cur) { cur.v += ' ' + l.trim(); continue; }
+      var m = l.match(/^([!-9;-~]+):[ \t]*(.*)$/);
+      if (m) { cur = { k: m[1].toLowerCase(), v: m[2].trim() }; list.push(cur); }
+      else if (l.trim() === '' && list.length) break; // blank line = end of headers
+    }
+    return {
+      list: list,
+      all: function (k) { return list.filter(function (x) { return x.k === k; }).map(function (x) { return x.v; }); },
+      get: function (k) { var x = list.filter(function (y) { return y.k === k; })[0]; return x ? x.v : ''; }
+    };
+  }
+
+  function parseAddr(v) {
+    if (!v) return null;
+    var m = v.match(/<([^>]+)>/);
+    var addr = (m ? m[1] : v).trim().replace(/^mailto:/i, '');
+    var name = m ? v.slice(0, m.index).replace(/^["'\s]+|["'\s]+$/g, '') : '';
+    var domain = addr.indexOf('@') !== -1 ? addr.split('@').pop().toLowerCase() : '';
+    return { name: name, addr: addr, domain: domain };
+  }
+
+  function authResult(H, mech) {
+    var joined = H.all('authentication-results').join(' ; ');
+    var m = joined.match(new RegExp('\\b' + mech + '\\s*=\\s*([a-z]+)', 'i'));
+    if (m) return m[1].toLowerCase();
+    if (mech === 'spf') {
+      var rs = H.get('received-spf').match(/^\s*([a-z]+)/i);
+      if (rs) return rs[1].toLowerCase();
+    }
+    return '';
+  }
+
+  function reviewHeaders(raw) {
+    var out = $('#sc-headers-out');
+    var H = parseHeaders(raw);
+    if (!H.list.length || !H.get('from')) {
+      renderResult(out, [{ level: 'warn', title: 'No headers recognised', detail: 'Paste the complete raw headers, starting with lines such as "Received:" or "From:".' }]);
+      return;
+    }
+    var f = [];
+    var from = parseAddr(H.get('from'));
+    var reply = parseAddr(H.get('reply-to'));
+    var ret = parseAddr(H.get('return-path'));
+    var midDomain = ((H.get('message-id').match(/@([^>\s]+)/) || [])[1] || '').toLowerCase();
+
+    f.push({ level: 'info', title: 'From: ' + (from.name ? from.name + ' ' : '') + '<' + from.addr + '>' });
+
+    var nameAddr = from.name.match(/[\w.+-]+@([\w.-]+\.[a-z]{2,})/i);
+    if (nameAddr && !sameOrg(nameAddr[1].toLowerCase(), from.domain)) {
+      f.push({ level: 'bad', title: 'Display name shows a different address', detail: 'The name reads "' + from.name + '" but the real sender domain is ' + from.domain + '.' });
+    }
+
+    var spf = authResult(H, 'spf'), dkim = authResult(H, 'dkim'), dmarc = authResult(H, 'dmarc');
+    if (!spf && !dkim && !dmarc) {
+      f.push({ level: 'warn', title: 'No SPF, DKIM or DMARC results found', detail: 'Your mail provider normally adds an "Authentication-Results" header. Without it, the sender cannot be verified from these headers.' });
+    } else {
+      [['SPF', spf, 'Checks the sending server is allowed to send for the domain.'],
+       ['DKIM', dkim, 'Checks the message carries a valid signature from the domain and was not altered.'],
+       ['DMARC', dmarc, 'Checks SPF or DKIM line up with the visible From address.']].forEach(function (row) {
+        var name = row[0], res = row[1], why = row[2];
+        if (res === 'pass') f.push({ level: 'ok', title: name + ' passed', detail: why });
+        else if (!res) f.push({ level: 'warn', title: name + ' result missing', detail: why });
+        else if (['fail', 'softfail', 'permerror', 'temperror'].indexOf(res) !== -1) f.push({ level: 'bad', title: name + ' ' + res, detail: why + ' A failure is a strong sign of spoofing or tampering.' });
+        else f.push({ level: 'warn', title: name + ': ' + res, detail: why });
+      });
+    }
+    var dkimD = (H.all('authentication-results').join(' ').match(/header\.d=([^\s;]+)/i) || [])[1];
+    if (dkimD && from.domain && !sameOrg(dkimD.toLowerCase(), from.domain)) {
+      f.push({ level: 'warn', title: 'DKIM signed by ' + dkimD + ', not ' + from.domain, detail: 'Can be normal for bulk-mail services, but a signature from an unrelated domain does not vouch for the From address.' });
+    }
+
+    if (reply && reply.domain && from.domain && !sameOrg(reply.domain, from.domain)) {
+      f.push({ level: 'warn', title: 'Replies go to a different domain', detail: 'Reply-To is ' + reply.addr + ' but From is ' + from.addr + '. Scammers use this so your answer reaches them.' });
+    }
+    if (ret && ret.domain && from.domain && !sameOrg(ret.domain, from.domain)) {
+      f.push({ level: 'warn', title: 'Bounce address is on a different domain', detail: 'Return-Path is ' + ret.addr + '. Common with newsletter services, suspicious on a personal or one-off message.' });
+    }
+    if (midDomain && from.domain && !sameOrg(midDomain, from.domain)) {
+      f.push({ level: 'info', title: 'Message-ID was created by ' + midDomain, detail: 'Differs from the From domain. Normal for hosted email, odd for a message claiming to come from a large company\'s own servers.' });
+    }
+    if (H.get('x-mailer') || H.get('user-agent')) {
+      f.push({ level: 'info', title: 'Sending software: ' + (H.get('x-mailer') || H.get('user-agent')) });
+    }
+
+    lookalike(from.domain).forEach(function (x) { f.push({ level: x.level, title: 'From domain: ' + x.title, detail: x.detail }); });
+    if (from.domain && from.addr.split('@').pop() !== from.addr.split('@').pop().toLowerCase()) {
+      f.push({ level: 'warn', title: 'Domain is written with capitals', detail: 'Domains are not case-sensitive, so mixed case is unusual and can hide an I vs l swap.' });
+    }
+
+    var hops = H.all('received').reverse().map(function (r) {
+      var fromPart = (r.match(/\bfrom\s+(.+?)(?:\s+by\s|\s*\(|;|$)/i) || [])[1] || '?';
+      var byPart = (r.match(/\bby\s+(\S+)/i) || [])[1] || '?';
+      var ip = (r.match(/\[?(\d{1,3}(?:\.\d{1,3}){3})\]?/) || [])[1];
+      var when = (r.split(';').pop() || '').trim();
+      return 'from ' + fromPart + ' → by ' + byPart + (ip ? ' [' + ip + ']' : '') + (when ? ' · ' + when : '');
+    });
+    if (!hops.length) f.push({ level: 'warn', title: 'No "Received" lines', detail: 'Messages that have travelled over the internet always have some. Their absence suggests the headers were edited or incomplete.' });
+
+    var extra = h('div', {},
+      hops.length ? h('h3', {}, 'Route taken (oldest first)') : null,
+      hops.length ? h('ol', { class: 'sc-hops' }, hops.map(function (x) { return h('li', {}, x); })) : null,
+      hops.length ? h('p', { class: 'sc-caveat' }, 'Only the hops added by servers you trust (usually the last few, nearest your inbox) can be relied on. Earlier ones can be forged by the sender.') : null,
+      h('div', { class: 'sc-actions' },
+        from.domain ? h('button', { type: 'button', class: 'btn-copy', onclick: function () { handoff('domain', from.domain, lookupDomain); } }, 'Look up ' + from.domain) : null,
+        from.addr ? h('button', { type: 'button', class: 'btn-copy', onclick: function () { handoff('case', from.addr, inspectCase); } }, 'Check case of sender address') : null));
+
+    renderResult(out, f, extra);
+  }
+
+  $('#sc-headers-form').addEventListener('submit', function (e) { e.preventDefault(); reviewHeaders($('#sc-headers-in').value); });
+
+  /* ---------- 3. Email case checker ---------- */
+  var AMBIGUOUS = {
+    'I': 'Capital i. Looks like lowercase L (l) and the digit 1 in many fonts.',
+    'l': 'Lowercase L. Looks like capital i (I) and the digit 1 in many fonts.',
+    '1': 'The digit one. Looks like l and I in many fonts.',
+    'O': 'Capital O. Looks like the digit zero (0).',
+    '0': 'The digit zero. Looks like capital O.'
+  };
+  var SCRIPTS = ['Latin', 'Cyrillic', 'Greek', 'Armenian', 'Hebrew', 'Arabic', 'Han', 'Hiragana', 'Katakana', 'Hangul'];
+
+  function scriptOf(ch) {
+    for (var i = 0; i < SCRIPTS.length; i++) {
+      try { if (new RegExp('\\p{Script=' + SCRIPTS[i] + '}', 'u').test(ch)) return SCRIPTS[i]; } catch (e) { return 'Other'; }
+    }
+    return 'Other';
+  }
+
+  function classify(ch) {
+    if (ch.codePointAt(0) > 127) {
+      var script = scriptOf(ch), isLetter = false;
+      try { isLetter = /\p{L}/u.test(ch); } catch (e) { isLetter = true; }
+      return { kind: isLetter ? (script === 'Latin' ? 'accent' : 'foreign') : 'symbol', label: isLetter ? script : 'symbol', script: isLetter ? script : '' };
+    }
+    if (/[A-Z]/.test(ch)) return { kind: 'upper', label: 'UPPER' };
+    if (/[a-z]/.test(ch)) return { kind: 'lower', label: 'lower' };
+    if (/[0-9]/.test(ch)) return { kind: 'digit', label: 'digit' };
+    return { kind: 'symbol', label: 'symbol' };
+  }
+
+  function inspectCase(text) {
+    var out = $('#sc-case-out');
+    text = (text || '').trim();
+    if (!text) { renderResult(out, [{ level: 'warn', title: 'Enter an email address or some text to inspect' }]); return; }
+
+    var info = Array.from(text).slice(0, 120).map(function (c) {
+      var k = classify(c); k.c = c; return k;
+    });
+    var count = function (kind) { return info.filter(function (x) { return x.kind === kind; }).length; };
+    var upper = count('upper'), lower = count('lower'), digits = count('digit');
+    var scripts = {};
+    info.forEach(function (x) { if (x.script) scripts[x.script] = true; });
+    if (upper || lower) scripts.Latin = true;
+    var scriptNames = Object.keys(scripts);
+
+    var f = [];
+    f.push({ level: 'info', title: upper + ' uppercase, ' + lower + ' lowercase, ' + digits + ' digit' + (digits === 1 ? '' : 's') + ' (of ' + info.length + ' characters)' });
+
+    if (upper && lower) {
+      var looksLikeAddress = /@|\./.test(text);
+      f.push({ level: looksLikeAddress ? 'warn' : 'info', title: 'Mixed uppercase and lowercase',
+        detail: looksLikeAddress ? 'Email domains are not case-sensitive, so real senders rarely capitalise them. Mixed case can be used to slip in a capital I that reads as an l.' : 'Normal for names and sentences.' });
+    } else if (upper && !lower) {
+      f.push({ level: 'info', title: 'All uppercase' });
+    } else if (lower && !upper) {
+      f.push({ level: 'ok', title: 'All lowercase', detail: 'The normal form for email addresses and domains.' });
+    }
+
+    if (scriptNames.length > 1) {
+      f.push({ level: 'bad', title: 'Mixes alphabets: ' + scriptNames.join(' + '), detail: 'Genuine addresses almost never combine alphabets. Look-alike letters from another script are a classic spoofing trick. Red-outlined characters below are the odd ones out.' });
+    } else if (info.some(function (x) { return x.kind === 'accent'; })) {
+      f.push({ level: 'warn', title: 'Contains accented letters', detail: 'Check these against what you expect, such as "é" in place of "e".' });
+    }
+
+    var has = function (chars) { return info.some(function (x) { return chars.indexOf(x.c) !== -1; }); };
+    if (has(['I', 'l', '1'])) {
+      f.push({ level: 'warn', title: 'Contains I, l or 1', detail: 'These are easily confused. Compare the lowercase view below: a capital I becomes "i" while a true lowercase l stays "l".' });
+    }
+    if (has(['O', '0'])) {
+      f.push({ level: 'warn', title: 'Contains O or 0', detail: 'Capital O and the digit zero are easily confused.' });
+    }
+    var lowered = text.toLowerCase();
+    [['rn', 'm'], ['vv', 'w'], ['cl', 'd']].forEach(function (p) {
+      if (lowered.indexOf(p[0]) !== -1) f.push({ level: 'warn', title: 'Contains "' + p[0] + '"', detail: 'Can pass for "' + p[1] + '" at a glance.' });
+    });
+
+    var views = h('dl', { class: 'sc-views' },
+      h('div', { class: 'sc-view' }, h('dt', {}, 'As typed (sans-serif)'), h('dd', { class: 'sc-sans' }, text)),
+      h('div', { class: 'sc-view' }, h('dt', {}, 'As typed (monospace)'), h('dd', { class: 'sc-mono' }, text)),
+      h('div', { class: 'sc-view' }, h('dt', {}, 'Forced lowercase'), h('dd', { class: 'sc-mono' }, lowered)),
+      h('div', { class: 'sc-view' }, h('dt', {}, 'Forced UPPERCASE'), h('dd', { class: 'sc-mono' }, text.toUpperCase())));
+
+    var grid = h('ul', { class: 'sc-chars', 'aria-label': 'Character breakdown' }, info.map(function (x) {
+      var hex = 'U+' + x.c.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
+      var foreign = x.kind === 'foreign' || (x.script && scriptNames.length > 1 && x.script !== 'Latin');
+      var cls = 'sc-ch sc-ch--' + (foreign ? 'foreign' : x.kind) + (AMBIGUOUS[x.c] ? ' sc-ch--amb' : '');
+      return h('li', { class: cls, title: AMBIGUOUS[x.c] || (x.script ? x.script + ' letter' : x.label) },
+        h('b', {}, x.c === ' ' ? '␣' : x.c), h('i', {}, hex), h('small', {}, x.label));
+    }));
+
+    var actions = [];
+    if (text !== lowered) {
+      actions.push(h('button', { type: 'button', class: 'btn-copy', onclick: function (e) {
+        var btn = e.currentTarget;
+        if (navigator.clipboard) navigator.clipboard.writeText(lowered).then(function () {
+          btn.textContent = 'Copied';
+          setTimeout(function () { btn.textContent = 'Copy lowercase version'; }, 1500);
+        });
+      } }, 'Copy lowercase version'));
+    }
+    if (/[.@]/.test(text)) {
+      actions.push(h('button', { type: 'button', class: 'btn-copy', onclick: function () { handoff('domain', text, lookupDomain); } }, 'Look up this domain'));
+    }
+
+    out.replaceChildren(
+      h('p', { class: 'sc-summary' }, summaryLine(f)),
+      findingsList(f),
+      h('h3', {}, 'Side-by-side views'),
+      views,
+      h('h3', {}, 'Character by character'),
+      grid,
+      h('p', { class: 'sc-legend' }, 'Blue = uppercase · tan fill = digit · tan outline = easily confused · red = different alphabet. Hover a character for details.'),
+      Array.from(text).length > 120 ? h('p', { class: 'sc-legend' }, 'Only the first 120 characters are shown.') : null,
+      actions.length ? h('div', { class: 'sc-actions' }, actions) : null,
+      h('p', { class: 'sc-caveat' }, CAVEAT));
+  }
+
+  $('#sc-case-form').addEventListener('submit', function (e) { e.preventDefault(); inspectCase($('#sc-case-in').value); });
 })();
 </script>
 </body>
