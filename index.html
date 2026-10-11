@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Devin O'Keefe | B2B Payment Fraud Awareness</title>
+<title>B2B Payment Fraud Awareness</title>
 <meta name="description" content="Practical tips for protecting your business from B2B payment fraud.">
 <style>
 :root{
@@ -192,7 +192,7 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 
 <section class="checker wrap" id="sender-check" aria-labelledby="checker-title">
   <h2 id="checker-title">Can I trust this sender?</h2>
-  <p class="intro">Three quick checks for an email you aren't sure about. Everything runs in your browser. Only the domain name is sent to public registration (RDAP) servers. Pasted headers never leave this page.</p>
+  <p class="intro">Three quick checks for an email you aren't sure about. The domain lookup is sent to public registration servers. Everything else runs in your browser. Pasted email headers never leave this page.</p><!-- domain sent to RDAP.ORG lookup -->
 
   <div class="sc-box">
     <div class="sc-tabs" role="tablist" aria-label="Sender checks">
@@ -216,7 +216,7 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 
     <!-- Header review -->
     <div class="sc-panel" role="tabpanel" id="sc-panel-headers" aria-labelledby="sc-tab-headers" hidden>
-      <p class="sc-help">Paste the full original headers. In Gmail: ⋮ menu, then Show original. In Outlook: File, Properties, Internet headers. In Apple Mail: View, Message, All Headers.</p>
+      <p class="sc-help">Paste the full original headers. <b>In Gmail:</b> ⋮ menu, then Show original. <b>In Outlook:</b> File, Properties, Internet headers. <b>In Apple Mail:</b> View, Message, All Headers.</p>
       <form id="sc-headers-form" novalidate>
         <label for="sc-headers-in">Raw email headers</label>
         <textarea id="sc-headers-in" placeholder="Received: from mail.example.com ...&#10;From: ...&#10;Authentication-Results: ..." spellcheck="false"></textarea>
@@ -227,7 +227,7 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 
     <!-- Email case checker -->
     <div class="sc-panel" role="tabpanel" id="sc-panel-case" aria-labelledby="sc-tab-case" hidden>
-      <p class="sc-help">Email addresses are usually treated as case-insensitive, so spotting a spoofed one is easier when all the letters are lowercase. Paste an address, domain or sender name. Every character is labelled upper case, lower case, digit or symbol, and look-alikes are flagged: capital I vs lowercase l vs 1, O vs 0, rn vs m, and letters from other alphabets.</p>
+      <p class="sc-help">Email addresses are usually treated as case-insensitive, so spotting a spoofed one is easier when all the letters are lowercase. Paste an address, domain or sender name. Every character is labelled upper case, lower case, digit or symbol. Extra details provided for the determined investigator.</p>
       <form id="sc-case-form" novalidate>
         <label for="sc-case-in">Email address or text</label>
         <div class="sc-row">
