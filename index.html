@@ -148,7 +148,7 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
     <div class="mock" role="img" aria-label="Example of a suspicious email announcing new bank details, with the lookalike sender domain highlighted">
       <div class="mock-bar">Inbox &nbsp;&#8250;&nbsp; Accounts Payable</div>
       <div class="mock-body">
-        <div class="mock-row"><span>From:</span> billing@acme-supply<span class="flag" style="color:var(--alert)" title="Newly registered domain">.co</span></div>
+        <div class="mock-row"><span>From:</span> billing@rnicrosoft<span class="flag" style="color:var(--alert)" title="Newly registered domain">.co</span></div>
         <div class="mock-row"><span>Subject:</span> <strong>Our bank details have changed</strong></div>
         <div class="mock-row">Please send all future payments ASAP to the <span class="flag" title="New receiving financial institution">new account</span> below. This is <span class="flag" title="Social pressure">urgent</span>.</div>
       </div>
@@ -192,7 +192,7 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 
 <section class="checker wrap" id="sender-check" aria-labelledby="checker-title">
   <h2 id="checker-title">Can I trust this sender?</h2>
-  <p class="intro">Three quick checks for an email you aren't sure about. The domain lookup is sent to public registration servers. Everything else runs in your browser. Pasted email headers never leave this page.</p><!-- domain sent to RDAP.ORG lookup -->
+  <p class="intro">Three quick checks for an email you aren't sure about. The domain lookup is sent to public registration servers. Everything else stays in your browser.</p><!-- domain sent to RDAP.ORG lookup -->
 
   <div class="sc-box">
     <div class="sc-tabs" role="tablist" aria-label="Sender checks">
@@ -437,8 +437,8 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
         var age = daysAgo(created);
         var when = age < 1 ? 'today' : age < 60 ? age + ' days ago' : age < 730 ? Math.round(age / 30) + ' months ago' : (age / 365).toFixed(1) + ' years ago';
         var level = age < 30 ? 'bad' : age < 180 ? 'warn' : age < 365 ? 'info' : 'ok';
-        var detail = age < 30 ? 'Brand-new domains are a hallmark of phishing campaigns. Treat with strong suspicion unless you were expecting this sender.'
-          : age < 180 ? 'Young domain. Legitimate businesses exist for years; be cautious about requests for money, logins or personal data.'
+        var detail = age < 30 ? 'Brand-new domains are a hallmark of phishing campaigns. Treat with strong suspicion unless you were expecting this exact sender.'
+          : age < 180 ? 'Young domain. Unlikely to see this for an established business; be cautious about requests for money, logins or personal data.'
           : age < 365 ? 'Under a year old.' : 'Long-established domains are a good sign, though attackers also hijack or buy old ones.';
         findings.push({ level: level, title: 'Registered ' + when + ' (' + isoDay(created) + ')', detail: detail });
       } else {
