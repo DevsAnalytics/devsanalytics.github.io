@@ -118,6 +118,18 @@ h2{font-family:var(--serif);font-weight:400;font-size:1.8rem;color:var(--deep);m
 .sc-ch--foreign{border:2px solid var(--alert);background:var(--alert-bg)}
 .sc-legend{font-size:.85rem;color:var(--muted);margin-top:10px}
 
+/* imposter awareness */
+.imp-tips{max-width:760px;margin:0 auto 24px;text-align:left}
+.imp-signs{max-width:760px;margin:0 auto 28px;text-align:left;background:var(--caution-bg);border-left:6px solid var(--caution);padding:14px 20px;font-size:.95rem;color:#43566d}
+.imp-signs strong{color:var(--caution)}
+.sc-box--top{padding-top:26px}
+a.btn-check{display:inline-block;text-decoration:none}
+.imp-chips{display:flex;flex-wrap:wrap;gap:8px;list-style:none}
+.imp-chip{display:inline-block;padding:6px 13px;border:1px solid var(--soft);border-radius:20px;background:#fff;color:var(--deep);font:.85rem var(--mono);text-decoration:none}
+.imp-chip:hover{background:var(--mist);border-color:var(--teal)}
+.imp-go{margin-top:18px}
+
+  
 /* cta */
 .cta{margin:48px 0 0;background:var(--deep);color:#fff;padding:52px 0;text-align:center}
 .cta p{max-width:32em;margin:0 auto 24px;opacity:.95}
@@ -237,6 +249,44 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
       </form>
       <div class="sc-out" id="sc-case-out" aria-live="polite"></div>
     </div>
+  </div>
+</section>
+
+<section class="checker wrap" id="imposter-check" aria-labelledby="imposter-title">
+  <h2 id="imposter-title">Imposter awareness</h2>
+  <p class="intro">Fraudsters don't need to hack anyone if they can pass as someone you already trust. Know the common disguises, then check who has registered names that look like yours or your vendors'.</p>
+
+  <div class="tips imp-tips">
+    <article class="tip rule">
+      <h3>The vendor imposter</h3>
+      <p>Pretends to be a supplier you already pay and asks you to update their bank details. Often arrives as a reply inside a real invoice thread.</p>
+    </article>
+    <article class="tip rule">
+      <h3>The executive imposter</h3>
+      <p>A "CEO" or "CFO" asks for an urgent, confidential transfer, usually from a lookalike address or a personal email account.</p>
+    </article>
+    <article class="tip rule">
+      <h3>The bank or support imposter</h3>
+      <p>Calls or emails about "suspicious activity" and asks for a one-time code, a login, or for you to move money to a "safe account".</p>
+    </article>
+    <article class="tip rule">
+      <h3>The imposter of you</h3>
+      <p>A lookalike of your own company name emails your customers with "new payment details". Watching for your name is part of defence.</p>
+    </article>
+  </div>
+
+  <p class="imp-signs"><strong>Signs of an imposter:</strong> urgency, secrecy, a request to skip the normal process, a new channel (personal email, text, a different phone number), and anything involving changed bank details.</p>
+
+  <div class="sc-box sc-box--top">
+    <p class="sc-help">Enter your company's domain, or a vendor's, to build a list of lookalike names: swapped characters, typos, and your name paired with words like "billing" or "invoice". Each one links to a Namedroppers search showing which similar domains are already registered. Nothing is sent from this page; the links open Namedroppers in a new tab.</p>
+    <form id="imp-form" novalidate>
+      <label for="imp-in">Company domain or name</label>
+      <div class="sc-row">
+        <input type="text" id="imp-in" placeholder="example.com" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <button type="submit" class="btn-check">Find look-alikes</button>
+      </div>
+    </form>
+    <div class="sc-out" id="imp-out" aria-live="polite"></div>
   </div>
 </section>
 
@@ -706,6 +756,122 @@ footer{padding:22px 0;text-align:center;font-size:.85rem;color:var(--muted)}
 
   $('#sc-case-form').addEventListener('submit', function (e) { e.preventDefault(); inspectCase($('#sc-case-in').value); });
 })();
+  
+(function () {
+  var form = document.getElementById('imp-form');
+  if (!form) return;
+  var out = document.getElementById('imp-out');
+
+  function h(tag, attrs) {
+    var e = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) { e.setAttribute(k, attrs[k]); });
+    Array.prototype.slice.call(arguments, 2).forEach(function (c) {
+      if (c == null) return;
+      e.append(c.nodeType ? c : document.createTextNode(c));
+    });
+    return e;
+  }
+
+  /* Namedroppers: GET /cgi-bin/query?keys=word1+word2 (its own embed form) */
+  function nd(keys) {
+    return 'https://www.namedroppers.com/cgi-bin/query?keys=' + encodeURIComponent(keys).replace(/%20/g, '+');
+  }
+
+  /* domain / email / company name -> the bare name to search for */
+  function nameOf(v) {
+    v = (v || '').trim().toLowerCase();
+    if (v.indexOf('@') !== -1) v = v.split('@').pop();
+    v = v.replace(/^[a-z][a-z0-9+.-]*:\/\//, '').split(/[\/?#:]/)[0].replace(/^www\./, '').replace(/\.$/, '');
+    var label;
+    if (v.indexOf('.') === -1) {
+      label = v;
+    } else {
+      var p = v.split('.');
+      var second = ['co', 'com', 'org', 'net', 'gov', 'ac', 'edu'];
+      label = (p.length >= 3 && p[p.length - 1].length === 2 && second.indexOf(p[p.length - 2]) !== -1) ? p[p.length - 3] : p[p.length - 2];
+    }
+    return (label || '').replace(/[^a-z0-9-]/g, '').replace(/^-+|-+$/g, '');
+  }
+
+  var SUBS = [['o', '0'], ['0', 'o'], ['l', '1'], ['1', 'l'], ['l', 'i'], ['i', 'l'], ['i', '1'],
+              ['m', 'rn'], ['rn', 'm'], ['w', 'vv'], ['vv', 'w'], ['d', 'cl'], ['cl', 'd']];
+  var WORDS = ['invoice', 'billing', 'payment', 'payments', 'accounts', 'remit', 'secure', 'support', 'ach', 'bank'];
+
+  function pick(arr, n) {
+    if (arr.length <= n) return arr;
+    var r = [], step = arr.length / n;
+    for (var i = 0; i < n; i++) r.push(arr[Math.floor(i * step)]);
+    return r;
+  }
+
+  function swaps(l, seen) {
+    var res = [];
+    SUBS.forEach(function (s) {
+      var i = l.indexOf(s[0]);
+      while (i !== -1) {
+        var v = l.slice(0, i) + s[1] + l.slice(i + s[0].length);
+        if (!seen[v]) { seen[v] = 1; res.push(v); }
+        i = l.indexOf(s[0], i + 1);
+      }
+    });
+    return pick(res, 14);
+  }
+
+  function typos(l, seen) {
+    var res = [], i, v;
+    function add(x) { if (x.length >= 3 && !seen[x]) { seen[x] = 1; res.push(x); } }
+    for (i = 0; i < l.length; i++) add(l.slice(0, i) + l.slice(i + 1));                       // missing letter
+    for (i = 0; i < l.length - 1; i++) if (l[i] !== l[i + 1]) add(l.slice(0, i) + l[i + 1] + l[i] + l.slice(i + 2)); // swapped letters
+    for (i = 0; i < l.length; i++) if (/[a-z]/.test(l[i])) add(l.slice(0, i + 1) + l[i] + l.slice(i + 1));         // doubled letter
+    return pick(res, 10);
+  }
+
+  function chips(items) {
+    return h.apply(null, ['ul', { 'class': 'imp-chips' }].concat(items.map(function (it) {
+      return h('li', {}, h('a', { 'class': 'imp-chip', href: nd(it.keys), target: '_blank', rel: 'noopener noreferrer', title: 'Search Namedroppers for ' + it.keys }, it.text));
+    })));
+  }
+
+  function finding(level, tag, title, detail) {
+    return h('li', { 'class': 'sc-f sc-f--' + level }, h('span', { 'class': 'sc-tag' }, tag), h('strong', {}, title), h('span', { 'class': 'sc-d' }, detail));
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = nameOf(document.getElementById('imp-in').value);
+    if (name.length < 3 || name.length > 40) {
+      out.replaceChildren(h('p', { 'class': 'sc-summary' }, 'Enter a company domain or name of at least 3 letters, for example example.com.'));
+      return;
+    }
+
+    var seen = {}; seen[name] = 1;
+    var sw = swaps(name, seen).map(function (v) { return { keys: v, text: v }; });
+    var ty = typos(name, seen).map(function (v) { return { keys: v, text: v }; });
+    var wd = WORDS.map(function (w) { return { keys: name + ' ' + w, text: name + ' + ' + w }; });
+
+    var kids = [
+      h('p', { 'class': 'sc-summary' }, 'Look-alikes for "' + name + '"'),
+      h('p', { 'class': 'sc-help' }, 'Namedroppers lists registered domains that contain your keyword. Look for names you do not recognise, especially ones that combine your name with a payment-related word.'),
+      h('a', { 'class': 'btn-check', href: nd(name), target: '_blank', rel: 'noopener noreferrer' }, 'Search every domain containing "' + name + '"')
+    ];
+    if (wd.length) { kids.push(h('h3', {}, 'Your name plus a risky word'), chips(wd)); }
+    if (sw.length) { kids.push(h('h3', {}, 'Swapped look-alike characters'), chips(sw)); }
+    if (ty.length) { kids.push(h('h3', {}, 'Common typos'), chips(ty)); }
+
+    kids.push(
+      h('h3', {}, 'What to do with what you find'),
+      h('ul', { 'class': 'sc-findings' },
+        finding('warn', 'Caution', 'Found a domain you do not recognise?',
+          'Run it through the Domain lookup tab above to see when it was registered. A very recent registration that resembles a real company is a strong warning sign.'),
+        finding('info', 'Note', 'If it imitates your company',
+          'Report it to the registrar abuse contact, warn customers and your bank, and consider registering the obvious variants yourself.')),
+      h('p', { 'class': 'sc-caveat' }, 'Namedroppers covers only .com, .net, .org, .edu, .biz, .us, .info and .name, shows at most 50 results per search, and updates nightly. Lookalikes on other endings (such as .co) will not appear, and an empty result does not prove none exist.'),
+      h('p', { 'class': 'sc-links' }, h('a', { href: '#sender-check' }, 'Back to the sender check'))
+    );
+    out.replaceChildren.apply(out, kids);
+  });
+})();
+
 </script>
 </body>
 </html>
