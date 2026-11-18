@@ -6,27 +6,144 @@
 <title>Ransomware Watch | B2B Fraud Prevention</title>
 <meta name="description" content="Recently listed ransomware-impacted organizations.">
 <style>
-:root{--bg:#f7f8fa;--card:#fff;--text:#14181f;--muted:#5b6472;--line:#e2e6ec;--accent:#c0392b}
-@media (prefers-color-scheme:dark){:root{--bg:#0e1116;--card:#161b22;--text:#e8ebf0;--muted:#98a2b3;--line:#262d38;--accent:#ff6b5b}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-main{max-width:860px;margin:0 auto;padding:40px 20px 64px}
-h1{font-size:clamp(1.6rem,4vw,2.2rem);line-height:1.2;margin:0 0 12px; text-align: center;}
-.lede{color:var(--muted);margin:0 0 20px}
-.notice{border-left:4px solid var(--accent);background:var(--card);padding:12px 16px;border-radius:6px;margin:0 0 24px}
-.tools{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
-input{flex:1;min-width:200px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--text);font:inherit}
-.updated{color:var(--muted);font-size:.85rem}
-.wrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
-table{width:100%;border-collapse:collapse}
-th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
-td:first-child{white-space:normal;font-weight:600}
-th{font-size:.78rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-tr:last-child td{border-bottom:0}
-.empty{padding:24px;color:var(--muted);text-align:center}
-footer{margin-top:24px;color:var(--muted);font-size:.85rem}
-a{color:var(--accent)}
+:root {
+  /* The Blue Palette from Page 2 */
+  --deep: #1f4e8c; 
+  --teal: #3b82c4; 
+  --mid: #4a90c9; 
+  --soft: #d6e6f5; 
+  --mist: #eef4fb;
+  --ink: #1e2f45; 
+  --muted: #5a6b80; 
+  --alert: #b3372f; 
+  --alert-bg: #fbeceb;
+  --ok: #1f6b3a; 
+  --caution: #a85f00; 
+  --caution-bg: #fdf3e1;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+  /* Page 1 Specific Mapping */
+  --bg: var(--mist);
+  --card: #fff;
+  --text: var(--ink);
+  --muted: var(--muted);
+  --line: var(--soft);
+  --accent: var(--deep);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.55 var(--sans);
+}
+
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 20px 64px;
+}
+
+h1 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  line-height: 1.2;
+  margin: 0 0 12px; 
+  text-align: center;
+  color: var(--deep);
+}
+
+.lede {
+  color: var(--muted);
+  margin: 0 0 20px;
+}
+
+.notice {
+  border-left: 4px solid var(--deep); /* Changed from red to blue */
+  background: var(--card);
+  padding: 12px 16px;
+  border-radius: 6px;
+  margin: 0 0 24px;
+}
+
+.tools {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--text);
+  font: inherit;
+}
+
+.updated {
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.wrap {
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+td:first-child {
+  white-space: normal;
+  font-weight: 600;
+}
+
+th {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+.empty {
+  padding: 24px;
+  color: var(--muted);
+  text-align: center;
+}
+
+footer {
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+a {
+  color: var(--deep); /* Changed from red to blue */
+}
 </style>
+
 </head>
 <body>
 <main>
